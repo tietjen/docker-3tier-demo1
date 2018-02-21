@@ -15,25 +15,24 @@ The images are based on public images available on Docker Hub and slightly custo
 
 ## How to use it
 Prerequisites:
-* a Ubuntu system wth Docker engine 1.9 or newer service installed and running
-* docker-compose, version 1.5 or newer installed
+* Docker Engine release 17.12.0 or newer
 * git package installed
 * no running service bound the HTTPS port (443), becaus the SSL web server will need it.
 
 ### Starting the application service
-1) Login to the Ubuntu system
-2) Create a `redmine` subdir
+1) Login to the system that hosts Docker
 3) Clone this repo:
 ```
-  git clone docker-3tier-demo1
+  $ git clone docker-3tier-demo1
 ```
-4) Create the volume mount point - the script assume to have `/data` directory on the root, if it does not exists it will be created by the `setup` script.
+4) Create the volume mount point by initiating setup script
 ```
-  sudo ./setup
+  $ sh setup
 ```
 5) Start the application service using docker-compose:
 ```
-  docker-compose --x-networking up -d
+  $ export DATA_PATH=$(pwd)/data
+  $ docker-compose up -d
 ```
 6) Verify that the applicaiton service is up and running:
 ```
@@ -53,11 +52,11 @@ Play with the Redmine appication logging into it (user: admin, password: admin),
 It is almost straightforward and these are the steps:
 1) First ensure you are on the same directoy where you started the service (i.e. where the `docker-compose.yml` file is located), then stop the application service using `docker-compose`
 ```
-  docker compose --x-networking stop
+  docker compose stop
 ```
 2) Now you should see no more the application Containers running so you can completely remove the used resources still using `docker-compose`:
 ```
-  docker compose --x-networking rm
+  docker compose rm
 ```
 3) You can now, still in the same directory where you run the `docker-compose rm` commandm run the volume backup script - you will need to authenticate for sudo execution:
 ```
@@ -76,7 +75,7 @@ The result is a tarball containing the volumes tree used by the three Containers
 ```
 6) You can now start the service in the new host using, again, `docker-compose`:
 ```
-  docker-compose --x-networking up -d
+  docker-compose up -d
 ```
 The application service should be now running on the new host and if you connect to it, using the browser, you should be able to find the same data you inserted in the previous session on the first host.
 

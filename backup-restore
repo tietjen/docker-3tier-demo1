@@ -1,6 +1,6 @@
 #!/bin/bash
 VOLUMES_ARCHIVE=redmine-volume-data.tar.gz
-VOLUME_MOUNT_POINT=/data
+VOLUME_MOUNT_POINT=$(pwd)/data
 APP_NAME=redmine
 
 if [ "$1" = "backup" ];then
